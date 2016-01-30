@@ -15,6 +15,7 @@ public class Abstract : MonoBehaviour {
     private int gap;
 
     private string inputText;
+    private string warningMsg;
 
 
     private GUIStyle skin;
@@ -23,13 +24,16 @@ public class Abstract : MonoBehaviour {
     private bool chestGUI;
     private bool withdrawActive;
     private bool depositActive;
+    private bool submit;
 
 
     private GameObject chest;
 
     // Use this for initialization
     void Start () {
+        submit = false;
         inputText = "";
+        warningMsg = "";
         withdrawActive = false;
         depositActive = false;
         gap = 50;
@@ -48,8 +52,8 @@ public class Abstract : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+
+    }
 
     void OnGUI()
     {
@@ -58,6 +62,7 @@ public class Abstract : MonoBehaviour {
         //GUI.color = Color.black;
         //skin.label.fontSize = 40;
         skin.normal.textColor = Color.black;
+        skin.fontSize = 40;
         GUI.Label(new Rect(ScreenX * 3 / 4, ScreenY * 1/10, labelX, labelY), coins.ToString(), skin);
         
 
@@ -75,18 +80,68 @@ public class Abstract : MonoBehaviour {
             {
                 depositActive = true;
             }
-
-            if(depositActive)
+            if(GUI.Button(new Rect((ScreenX * 1 / 2) - (labelX) + 3 * gap, (ScreenY * 3 / 6), 2 * labelX, 2 * labelY), "Withdraw"))
             {
-                GUI.TextField(new Rect((ScreenX * 1 / 2) - (2* labelX), (ScreenY * 1 / 2) - (labelY / 2), 4*labelX, labelY), "asd");
+                withdrawActive = true;
             }
 
-            if (GUI.Button(new Rect((ScreenX * 1 / 2) - (labelX) + 3 * gap, (ScreenY * 3 / 6), 2 * labelX, 2 * labelY), "Withdraw"))
+            if(depositActive || withdrawActive)
             {
-                //int resp = chest.GetComponent<Chest>().withdrawCoins(5);
+                Event e = Event.current;
+                if (e.keyCode == KeyCode.Return)
+                {
+                    submit = true;
+
+                    int num = int.Parse(inputText); // Can cause FormatException
+
+                    inputText = "";
+
+                    // Logic
+                    if (depositActive)
+                    {
+                        if (num <= coins)
+                        {
+                            coins -= num;
+                            chest.GetComponent<Chest>().depositCoins(num);
+                        }
+                        else
+                        {
+                            warningMsg = "Not enough coins!";
+                        }
+                    } else if(withdrawActive)
+                    {
+                        int resp = chest.GetComponent<Chest>().withdrawCoins(num);
+                        if (resp == -1)
+                            warningMsg = "Not enough coins in the chest!";
+                        else
+                        {
+                            coins += num;
+                        }
+                    }
+
+                    submit = false;
+                    depositActive = false;
+                    withdrawActive = false;
+
+                }
+                else if (!submit)
+                {
+                    GUI.skin.textField.fontSize = 40;
+                    inputText = GUI.TextField(new Rect((ScreenX * 1 / 2) - (2 * labelX), (ScreenY * 1 / 2) - (labelY / 2), 4 * labelX, labelY), inputText);
+                }
+
             }
+
+            skin.normal.textColor = Color.red;
+            skin.fontSize = 20;
+            GUI.Label(new Rect((ScreenX * 1 / 2) - (labelX / 2), (ScreenY * 3 / 4), labelX, labelY), warningMsg, skin);
 
             //GUI.Label(new Rect((ScreenX * 1 / 2) - (labelX/2), (ScreenY * 1 / 6) + (labelY) + gap, labelX, labelY), "Coins: " + chest.GetComponent<Chest>().getCoins(), skin);
+        } else
+        {
+            submit = false;
+            depositActive = false;
+            withdrawActive = false;
         }
 
     }

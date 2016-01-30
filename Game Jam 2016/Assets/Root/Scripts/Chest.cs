@@ -15,22 +15,25 @@ public class Chest : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-        if(interactable)
-        {
 
-        }
+        //print(coinsStored);
 
 	}
 
     public void depositCoins(int coins)
     {
+        print("Coins: " + coins);
         coinsStored += coins;
+        print("Coins stored: " + coinsStored);
     }
 
-    public void withdrawCoins(int coins)
+    public int withdrawCoins(int coins)
     {
-        coinsStored -= coins;
+        if (coins > coinsStored) return -1;
+        else {
+            coinsStored -= coins;
+            return 0;
+        }
     }
 
     public int getCoins()
