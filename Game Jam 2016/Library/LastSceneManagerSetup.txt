@@ -1,1 +1,4 @@
-sceneSetups: []
+sceneSetups:
+- path: Assets/Root/Scenes/GGJ Game Demo.unity
+  isLoaded: 1
+  isActive: 1

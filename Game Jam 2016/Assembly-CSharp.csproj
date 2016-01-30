@@ -46,8 +46,13 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Root\Scripts\Abstract.cs" />
+     <Compile Include="Assets\Root\Scripts\Blade.cs" />
+     <Compile Include="Assets\Root\Scripts\Chest.cs" />
      <Compile Include="Assets\Root\Scripts\Collectable.cs" />
+     <Compile Include="Assets\Root\Scripts\DeathTouch.cs" />
+     <Compile Include="Assets\Root\Scripts\Ladder.cs" />
      <Compile Include="Assets\Root\Scripts\Movement.cs" />
+     <Compile Include="Assets\Root\Scripts\Rotate.cs" />
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
