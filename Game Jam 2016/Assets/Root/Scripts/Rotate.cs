@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UserInterface : MonoBehaviour {
+public class Rotate : MonoBehaviour {
+
+    public float speed;
 
 	// Use this for initialization
 	void Start () {
@@ -10,6 +12,6 @@ public class UserInterface : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+        transform.Rotate(new Vector3(0, 0, speed * Time.deltaTime));
 	}
 }

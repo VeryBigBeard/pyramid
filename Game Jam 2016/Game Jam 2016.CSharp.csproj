@@ -69,10 +69,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Root\Scripts\Abstract.cs" />
+    <Compile Include="Assets\Root\Scripts\Blade.cs" />
     <Compile Include="Assets\Root\Scripts\Chest.cs" />
     <Compile Include="Assets\Root\Scripts\Collectable.cs" />
+    <Compile Include="Assets\Root\Scripts\DeathTouch.cs" />
     <Compile Include="Assets\Root\Scripts\Movement.cs" />
-    <Compile Include="Assets\Root\Scripts\UserInterface.cs" />
+    <Compile Include="Assets\Root\Scripts\Rotate.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

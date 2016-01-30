@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Abstract : MonoBehaviour {
 
-    public int score;   // Remember to change to private
-    public int coins;   // Remember to change to private
+    private int score;
+    private int coins;
 
 
     // GUI sizes
@@ -14,12 +14,17 @@ public class Abstract : MonoBehaviour {
     private int labelY;
     private int gap;
 
+    // Timer variables
+    private int timeLeft;
+    private float realTime = 240;
+
     private string inputText;
     private string warningMsg;
 
 
     private GUIStyle skin;
 
+    public Texture coinTexture;
 
     private bool chestGUI;
     private bool withdrawActive;
@@ -52,7 +57,12 @@ public class Abstract : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        realTime -= Time.deltaTime;
+        timeLeft = (int) realTime;
+        if(timeLeft <= 0)
+        {
+            // Death logic
+        }
     }
 
     void OnGUI()
@@ -63,10 +73,18 @@ public class Abstract : MonoBehaviour {
         //skin.label.fontSize = 40;
         skin.normal.textColor = Color.black;
         skin.fontSize = 40;
-        GUI.Label(new Rect(ScreenX * 3 / 4, ScreenY * 1/10, labelX, labelY), coins.ToString(), skin);
-        
+        GUI.Label(new Rect(ScreenX * 3 / 4, ScreenY * 1 / 10 - labelY, labelX, labelY), score.ToString(), skin);
+        GUI.Label(new Rect(ScreenX * 1 / 8, ScreenY * 1 / 10 - labelY, labelX, labelY), (int)(timeLeft/60) +
+            ":" +
+            (int)timeLeft%60
+            , skin);
+        skin.fontSize = 30;
+        GUI.DrawTexture(new Rect(ScreenX * 3 / 4 - 25, ScreenY * 1 / 10 + gap/2, 50, 50), coinTexture);
+        GUI.Label(new Rect(ScreenX * 3 / 4, ScreenY * 1/10 + gap/2, labelX, labelY), "x " + coins.ToString(), skin);
+       
 
-        if(chestGUI)
+
+        if (chestGUI)
         {
             GUI.Box(new Rect(ScreenX * 1/4, ScreenY * 1/6, ScreenX * 1/2, ScreenY * 4/6), "");
             skin.normal.textColor = Color.white;
@@ -119,6 +137,7 @@ public class Abstract : MonoBehaviour {
                         }
                     }
 
+                    warningMsg = "";
                     submit = false;
                     depositActive = false;
                     withdrawActive = false;
@@ -127,7 +146,7 @@ public class Abstract : MonoBehaviour {
                 else if (!submit)
                 {
                     GUI.skin.textField.fontSize = 40;
-                    inputText = GUI.TextField(new Rect((ScreenX * 1 / 2) - (2 * labelX), (ScreenY * 1 / 2) - (labelY / 2), 4 * labelX, labelY), inputText);
+                    inputText = GUI.TextField(new Rect((ScreenX * 1 / 2) - (2 * labelX), (ScreenY * 1 / 2) - (labelY / 2) - gap, 4 * labelX, labelY), inputText);
                 }
 
             }
@@ -142,6 +161,7 @@ public class Abstract : MonoBehaviour {
             submit = false;
             depositActive = false;
             withdrawActive = false;
+            warningMsg = "";
         }
 
     }
