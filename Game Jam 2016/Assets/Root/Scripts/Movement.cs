@@ -16,10 +16,9 @@ public class Movement : MonoBehaviour {
 
         transform.Translate(Input.GetAxis("Horizontal") * Time.deltaTime * speed, 0, 0);
 
-        if(Input.GetKeyDown(KeyCode.Space))
+
+        if(Input.GetKeyDown(KeyCode.Space) && GetComponent<Rigidbody2D>().velocity.y == 0)
         {
-            print("Jump");
-            //transform.Translate(0, jumpForce * Time.deltaTime, 0);
             GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
         }
         
